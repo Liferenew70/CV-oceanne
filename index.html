@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <title>CV | Ouattara Océanne</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="fav/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <meta proprety="og:url" content="https://liferenew70.github.io/CV-oceanne/">
-    <meta proprety="og:description" content="Site présentant mon CV">
+    <meta property="og:url" content="https://liferenew70.github.io/CV-oceanne/">
+    <meta property="og:description" content="Site présentant mon CV">
     <style>
         :root {
             --primary: #2c3e50;
@@ -16,6 +15,8 @@
             --dark: #2c3e50;
             --accent: #e74c3c;
             --whatsapp: #25D366;
+            --success: #2ecc71;
+            --error: #e74c3c;
         }
         
         * {
@@ -98,7 +99,7 @@
         h1 {
             color: white;
             font-weight: 600;
-            font-family: arial, impact,;
+            font-family: arial, impact;
             margin-bottom: 0.5rem;
             font-size: 2.8rem;
             position: relative;
@@ -547,6 +548,32 @@
             transform: scale(1.2);
         }
         
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s ease;
+            max-width: 350px;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .notification.error {
+            background-color: var(--error);
+        }
+        
         /* Bouton retour en haut */
         .back-to-top {
             position: fixed;
@@ -818,7 +845,6 @@
         <section id="gallery">
             <h2>Personnage</h2>
             <div class="gallery">
-
                 <div class="gallery-container" id="galleryContainer">
                     <div class="gallery-slide">
                         <img src="Img1.jpg" alt="Événement professionnel">
@@ -828,6 +854,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="gallery-nav">
+                    <button class="gallery-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="gallery-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="gallery-dots" id="galleryDots"></div>
             </div>
         </section>
 
@@ -893,18 +924,15 @@
                     </div>
                     <div class="form-group full-width">
                         <div class="btn-group">
-                            <button type="submit">
+                            <button type="submit" onclick="alert('indisponible pour le moment, veillez me contacter directement sur whtasapp par le boutton ci-contre ')">
                                 <i class="fas fa-paper-plane"></i> Envoyer
                             </button>
-                            <!-- <a href="https://wa.me/2250713143077" class="whatsapp-btn" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Contact directe par WhatsApp
-                            </a> -->
+                            <a href="https://wa.me/+2250713143077" class="whatsapp-btn" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Contact direct par WhatsApp
+                            </a>
                         </div>
                     </div>
                 </form>
-                <a href="https://wa.me/+2250713143077?text=Salut%20j'ai%20eu%20ton%20numéro%20sur%20ton%20site%20de%20CV" class="whatsapp-btn" target="_blank">
-                  <i class="fab fa-whatsapp"></i> Contact direct par WhatsApp
-               </a>
             </div>
         </section>
     </div>
@@ -915,10 +943,10 @@
                 <h3>OUATTARA KIPIEN Claude-Océanne</h3>
                 <p>Expertise Comptable | Communication | Entrepreneuriat</p>
                 <div class="social-links">
-                    <a href="#" style="color:white; text-decoration: none;" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" style="color:white; text-decoration: none;" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" style="color:white; text-decoration: none;" class="social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="#" style="color:white; text-decoration: none;" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
                 </div>
                 <p class="copyright">&copy; 2025 Tous droits réservés. Conçu avec passion.</p>
             </div>
@@ -930,174 +958,177 @@
     </div>
 
     <script>
-    // Animation au défilement
-    const animateOnScroll = () => {
-        const sections = document.querySelectorAll('section');
-        
-        sections.forEach(section => {
-            const sectionTop = section.getBoundingClientRect().top;
-            const windowHeight = window.innerHeight;
+        // Animation au défilement
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateOnScroll = () => {
+                const sections = document.querySelectorAll('section');
+                
+                sections.forEach(section => {
+                    const sectionTop = section.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (sectionTop < windowHeight - 100) {
+                        section.classList.add('visible');
+                    }
+                });
+            };
             
-            if (sectionTop < windowHeight - 100) {
-                section.classList.add('visible');
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Appel initial
+            
+            // Bouton retour en haut
+            const backToTopBtn = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Galerie d'images
+            const galleryContainer = document.getElementById('galleryContainer');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const galleryDots = document.getElementById('galleryDots');
+            const slides = document.querySelectorAll('.gallery-slide');
+            
+            let currentIndex = 0;
+            let intervalId;
+            
+            // Créer les dots de navigation
+            slides.forEach((slide, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(index));
+                galleryDots.appendChild(dot);
+            });
+            
+            // Fonction pour aller à un slide spécifique
+            function goToSlide(index) {
+                currentIndex = index;
+                updateGallery();
             }
-        });
-    };
-    
-    window.addEventListener('scroll', animateOnScroll);
-    window.addEventListener('load', animateOnScroll);
-    
-    // Bouton retour en haut
-    const backToTopBtn = document.getElementById('backToTop');
-    
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-            backToTopBtn.classList.add('visible');
-        } else {
-            backToTopBtn.classList.remove('visible');
-        }
-    });
-    
-    backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-    
-    // Galerie d'images
-    const galleryContainer = document.getElementById('galleryContainer');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const galleryDots = document.getElementById('galleryDots');
-    const slides = document.querySelectorAll('.gallery-slide');
-    
-    let currentIndex = 0;
-    let intervalId;
-    
-    // Créer les dots de navigation
-    slides.forEach((slide, index) => {
-        const dot = document.createElement('div');
-        dot.classList.add('dot');
-        if (index === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => goToSlide(index));
-        galleryDots.appendChild(dot);
-    });
-    
-    // Fonction pour aller à un slide spécifique
-    function goToSlide(index) {
-        currentIndex = index;
-        updateGallery();
-    }
-    
-    // Mettre à jour la galerie
-    function updateGallery() {
-        galleryContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
-        
-        // Mettre à jour les dots actifs
-        document.querySelectorAll('.dot').forEach((dot, index) => {
-            if (index === currentIndex) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
+            
+            // Mettre à jour la galerie
+            function updateGallery() {
+                galleryContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+                
+                // Mettre à jour les dots actifs
+                document.querySelectorAll('.dot').forEach((dot, index) => {
+                    if (index === currentIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
             }
+            
+            // Slide suivant
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % slides.length;
+                updateGallery();
+            }
+            
+            // Slide précédent
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                updateGallery();
+            }
+            
+            // Événements des boutons
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+            
+            // Défilement automatique
+            function startAutoSlide() {
+                intervalId = setInterval(nextSlide, 5000);
+            }
+            
+            function stopAutoSlide() {
+                clearInterval(intervalId);
+            }
+            
+            galleryContainer.addEventListener('mouseenter', stopAutoSlide);
+            galleryContainer.addEventListener('mouseleave', startAutoSlide);
+            
+            // Démarrer le défilement automatique
+            startAutoSlide();
+            
+            // Formulaire de contact
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Récupération des valeurs
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+                
+                // Création du message WhatsApp
+                const whatsappMessage = `Nouveau message depuis le site CV:
+                
+Nom: ${name}
+Email: ${email}
+Sujet: ${subject}
+Message: ${message}
+
+Merci de me contacter rapidement.`;
+
+                // Encodage du message pour l'URL
+                const encodedMessage = encodeURIComponent(whatsappMessage);
+                
+                // Redirection vers WhatsApp avec le message pré-rempli
+                window.open(`https://wa.me/2250713143077?text=${encodedMessage}`, '_blank');
+                
+                // Affichage de la notification
+                showNotification(`Message envoyé avec succès!<br>Merci ${name}, je vous répondrai dès que possible.`);
+                
+                // Réinitialisation du formulaire
+                this.reset();
+            });
+            
+            // Fonction pour afficher les notifications
+            function showNotification(message, isError = false) {
+                const notification = document.createElement('div');
+                notification.className = `notification ${isError ? 'error' : ''}`;
+                notification.innerHTML = message;
+                
+                document.body.appendChild(notification);
+                
+                // Animation d'apparition
+                setTimeout(() => {
+                    notification.classList.add('show');
+                }, 100);
+                
+                // Disparition après 5 secondes
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 500);
+                }, 5000);
+            }
+            
+            // Effet de vague sur le header
+            const header = document.querySelector('header');
+            const waveSvg = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" style="position: absolute; bottom: 0; left: 0; width: 100%;">
+                    <path fill="rgba(255,255,255,0.1)" fill-opacity="1" d="M0,256L48,261.3C96,267,192,277,288,250.7C384,224,480,160,576,160C672,160,768,224,864,218.7C960,213,1056,139,1152,117.3C1248,96,1344,128,1392,144L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+                </svg>
+            `;
+            
+            header.insertAdjacentHTML('beforeend', waveSvg);
         });
-    }
-    
-    // Slide suivant
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % slides.length;
-        updateGallery();
-    }
-    
-    // Slide précédent
-    function prevSlide() {
-        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-        updateGallery();
-    }
-    
-    // Événements des boutons
-    nextBtn.addEventListener('click', nextSlide);
-    prevBtn.addEventListener('click', prevSlide);
-    
-    // Défilement automatique
-    function startAutoSlide() {
-        intervalId = setInterval(nextSlide, 5000);
-    }
-    
-    function stopAutoSlide() {
-        clearInterval(intervalId);
-    }
-    
-    galleryContainer.addEventListener('mouseenter', stopAutoSlide);
-    galleryContainer.addEventListener('mouseleave', startAutoSlide);
-    
-    // Démarrer le défilement automatique
-    startAutoSlide();
-    
-    // Formulaire de contact - Envoi vers WhatsApp
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Récupération des valeurs
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const subject = document.getElementById('subject').value;
-        const message = document.getElementById('message').value;
-        
-        // Création du message pour WhatsApp
-        const whatsappMessage = `Nouveau message de ${name} (${email})%0A%0ASujet: ${subject}%0A%0AMessage:%0A${message}`;
-        
-        // Ouverture de WhatsApp avec le message
-        window.open(`https://wa.me/2250713143077?text=${whatsappMessage}`, '_blank');
-        
-        // Réinitialisation du formulaire
-        this.reset();
-        
-        // Notification
-        const notification = document.createElement('div');
-        notification.style.position = 'fixed';
-        notification.style.bottom = '20px';
-        notification.style.right = '20px';
-        notification.style.backgroundColor = 'var(--secondary)';
-        notification.style.color = 'white';
-        notification.style.padding = '1rem 2rem';
-        notification.style.borderRadius = '8px';
-        notification.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
-        notification.style.zIndex = '1000';
-        notification.style.transform = 'translateY(100px)';
-        notification.style.opacity = '0';
-        notification.style.transition = 'all 0.5s ease';
-        notification.innerHTML = `
-            <h4 style="margin-bottom: 0.5rem;">Formulaire prêt à envoyer!</h4>
-            <p>Redirection vers WhatsApp...</p>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.style.transform = 'translateY(0)';
-            notification.style.opacity = '1';
-        }, 100);
-        
-        setTimeout(() => {
-            notification.style.transform = 'translateY(100px)';
-            notification.style.opacity = '0';
-            setTimeout(() => {
-                notification.remove();
-            }, 500);
-        }, 3000);
-    });
-    
-    // Effet de vague sur le header
-    const header = document.querySelector('header');
-    const waveSvg = `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" style="position: absolute; bottom: 0; left: 0; width: 100%;">
-            <path fill="rgba(255,255,255,0.1)" fill-opacity="1" d="M0,256L48,261.3C96,267,192,277,288,250.7C384,224,480,160,576,160C672,160,768,224,864,218.7C960,213,1056,139,1152,117.3C1248,96,1344,128,1392,144L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-        </svg>
-    `;
-    
-    header.insertAdjacentHTML('beforeend', waveSvg);
-</script>
+    </script>
 </body>
 </html>
